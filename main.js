@@ -5,27 +5,28 @@ var gsmOps = [
         logo: 'https://upload.wikimedia.org/wikipedia/sco/d/d5/Vodafone_logo.png',
         tarifeler: [
             {
-                gb: 20,
-                dk: 100,
-                sms: 5000,
-                taahhut: '12 ay',
-                fiyat: 55
-            },
-            {
-                gb: 20,
-                dk: 1000,
-                sms: 5000,
-                taahhut: '36 ay',
-                fiyat: 40
-            },
-            {
+                dk: 500,
                 gb: 10,
-                dk: 100,
-                sms: 5000,
-                taahhut: '24 ay',
-                fiyat: 30
+                sms: 1000,
+                fiyat: 50,
+                adi: 'her yöne 500 dk'
+            },
+            {
+                dk: 500,
+                gb: 10,
+                sms: 1000,
+                fiyat: 50,
+                adi: 'her yöne 1000 dk'
+            },
+            {
+                dk: 500,
+                gb: 10,
+                sms: 1000,
+                fiyat: 50,
+                adi: 'her yöne 1500 dk'
             }
         ]
+
     },
     {
         id: 2,
@@ -39,43 +40,35 @@ var gsmOps = [
     }
 ];
 function opertorleriGoster() {
-    var myElem = document.getElementById("tblTarifeler");
+    var myElem = document.getElementById("ulOperatorler");
     var myInner = '';
     for (let index = 0; index < gsmOps.length; index++) {
-        myInner = myInner + '<a onclick="gsmSec(this,' + gsmOps[index].id + ')" class="nav-item nav-link">';
+        myInner = myInner + '<li  class="list-group-item" onclick="gsmSecildi(this,' + gsmOps[index].id + ')">';
         myInner = myInner + '<img  src="' + gsmOps[index].logo + '"/>';
         myInner = myInner + gsmOps[index].adi;
-        myInner = myInner + '</a>';
+        myInner = myInner + '</li>';
     }
 
     myElem.innerHTML = myInner;
 }
 
-function gsmSec(element, id) {
-    var activeOlanlar = document.getElementsByClassName('active');
+function gsmSecildi(myElement, id) {
+    var tarifelerListesi = document.getElementById("ulTarifeler") ;
 
-    for (let index = 0; index < activeOlanlar.length; index++) {
-        activeOlanlar[index].className = activeOlanlar[index].className.replace('active', '')
+    tarifelerListesi.innerHTML = ''
+    for (let index = 0; index < gsmOps.length; index++) {
+        if (gsmOps[index].id == id) {
+            gsmOps[index].tarifeler.forEach(element => {
+                tarifelerListesi.innerHTML =tarifelerListesi.innerHTML  + '<li  class="list-group-item">' + element.adi + '</li>';
+            })
+
+        }
+    }
+    var myActives = document.getElementsByClassName('active');
+    for (index = 0; index < myActives.length; index++) {
+        myActives[index].className = myActives[index].className.replace('active', '');
 
     }
-    element.className = element.className + ' active';
+    myElement.className = myElement.className + " active";
 
-
-    var tarifeListeUl = document.getElementById("tarifeListe");
-    tarifeListeUl.innerHTML = '';
-    gsmOps.forEach(element => {
-        if (element.id == id) {
-            for (let index = 0; index < element.tarifeler.length; index++) {
-                tarifeListeUl.innerHTML = tarifeListeUl.innerHTML + '<li class="list-group-item">' + element.tarifeler[index].taahhut + '</li>'
-
-            }
-        }
-    });
-
-
-    /*
-    Object.keys(activeOlanlar).forEach(element => {
-        element.className = element.className.replace('active','')
-    });
-    */
 }
